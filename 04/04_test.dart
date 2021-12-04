@@ -54,6 +54,44 @@ main() {
       ];
       expect(input.boards.last.rows, lastBoardRows);
     });
+
+    group('drawing', () {
+      late BingoInput input;
+      setUp(() {
+        input = BingoInput.fromLines(testInput.split('\n'));
+      });
+
+      test('selects on all boards', () {
+        input.drawNext();
+        expect(input.boards.every((b) => b.selectedNumbers.contains(7)), true);
+
+        input.drawNext();
+        expect(input.boards.every((b) => b.selectedNumbers.contains(7)), true);
+        expect(input.boards.every((b) => b.selectedNumbers.contains(4)), true);
+
+        input.drawNext();
+        expect(input.boards.every((b) => b.selectedNumbers.contains(7)), true);
+        expect(input.boards.every((b) => b.selectedNumbers.contains(4)), true);
+        expect(input.boards.every((b) => b.selectedNumbers.contains(9)), true);
+      });
+
+      test('drawing first twelve numbers makes only third board winner', () {
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+        input.drawNext();
+
+        expect(input.winners, [input.boards[2]]);
+      });
+    });
   });
 
   group(BingoBoard, () {

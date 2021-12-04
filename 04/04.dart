@@ -31,6 +31,8 @@ class BingoInput {
   final List<int> draws;
   final List<BingoBoard> boards;
 
+  int _drawIndex = 0;
+
   BingoInput({required this.draws, required this.boards});
 
   static BingoInput fromFile(String filePath) {
@@ -64,6 +66,17 @@ class BingoInput {
 
     return BingoInput(draws: draws, boards: boards);
   }
+
+  void drawNext() {
+    final drawValue = draws[_drawIndex];
+    for (final board in boards) {
+      board.select(drawValue);
+    }
+
+    _drawIndex++;
+  }
+
+  List<BingoBoard> get winners => boards.where((b) => b.isWinner).toList();
 }
 
 main() {
