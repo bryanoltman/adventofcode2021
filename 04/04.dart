@@ -6,6 +6,9 @@ class BingoBoard {
 
   List<int> selectedNumbers = [];
 
+  List<int> get unselectedNumbers =>
+      rows.expand((e) => e).where((e) => !selectedNumbers.contains(e)).toList();
+
   BingoBoard({required this.rows});
 
   void select(int number) {
@@ -32,6 +35,12 @@ class BingoInput {
   final List<BingoBoard> boards;
 
   int _drawIndex = 0;
+
+  int? get lastDrawnNumber {
+    if (_drawIndex == 0) return null;
+
+    return draws[_drawIndex - 1];
+  }
 
   BingoInput({required this.draws, required this.boards});
 
@@ -76,10 +85,18 @@ class BingoInput {
     _drawIndex++;
   }
 
+  void drawUntilWinner() {
+    while (winners.isEmpty) drawNext();
+  }
+
   List<BingoBoard> get winners => boards.where((b) => b.isWinner).toList();
 }
 
 main() {
   final input = BingoInput.fromFile('input.txt');
+  while (input.winners.isEmpty) {
+    input.drawNext();
+  }
+
   print(input);
 }

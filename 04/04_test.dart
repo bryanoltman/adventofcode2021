@@ -91,6 +91,12 @@ main() {
 
         expect(input.winners, [input.boards[2]]);
       });
+
+      test('drawUntilWinner draws until a winner is found', () {
+        input.drawUntilWinner();
+        expect(input.winners, [input.boards[2]]);
+        expect(input.lastDrawnNumber, 24);
+      });
     });
   });
 
@@ -105,6 +111,32 @@ main() {
         [22, 11, 13, 6, 5],
         [2, 0, 12, 3, 7],
       ]);
+    });
+
+    test('unselected numbers only contains numbers that have not been selected',
+        () {
+      board.select(14);
+      board.select(21);
+      board.select(17);
+      board.select(24);
+      board.select(4);
+      board.select(10);
+      board.select(16);
+      board.select(15);
+      board.select(9);
+      board.select(19);
+      board.select(18);
+      board.select(8);
+      board.select(23);
+      board.select(26);
+      board.select(20);
+      board.select(22);
+      board.select(11);
+      board.select(13);
+      board.select(6);
+      board.select(5);
+
+      expect(board.unselectedNumbers, [2, 0, 12, 3, 7]);
     });
 
     test('is not winner if no row or column of selected values exists', () {
