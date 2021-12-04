@@ -97,6 +97,11 @@ main() {
         expect(input.winners, [input.boards[2]]);
         expect(input.lastDrawnNumber, 24);
       });
+
+      test('properly scores board', () {
+        input.drawUntilWinner();
+        expect(input.score, 4512);
+      });
     });
   });
 
