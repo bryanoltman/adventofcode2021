@@ -91,6 +91,8 @@ class BingoInput {
 
   List<BingoBoard> get winners => boards.where((b) => b.isWinner).toList();
 
+  List<BingoBoard> get nonWinners => boards.where((b) => !b.isWinner).toList();
+
   int? get score {
     if (winners.isEmpty) return null;
     if (lastDrawnNumber == null) return null;
@@ -107,5 +109,21 @@ main() {
     input.drawNext();
   }
 
-  print('score is ${input.score!}');
+  print('first winning score is ${input.score!}');
+
+  while (input.nonWinners.length > 1) {
+    input.drawNext();
+  }
+
+  final lastWinningBoard =
+      input.boards.where((element) => !input.winners.contains(element)).first;
+
+  while (input.winners.length < input.boards.length) {
+    input.drawNext();
+  }
+
+  final unselectedNumberSum = lastWinningBoard.unselectedNumbers
+      .reduce((value, element) => value + element);
+  final lastScore = unselectedNumberSum * input.lastDrawnNumber!;
+  print('last winning score $lastScore');
 }
