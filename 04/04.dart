@@ -4,7 +4,27 @@ import 'dart:io';
 class BingoBoard {
   final List<List<int>> rows;
 
+  List<int> selectedNumbers = [];
+
   BingoBoard({required this.rows});
+
+  void select(int number) {
+    selectedNumbers.add(number);
+  }
+
+  bool get isWinner {
+    // check rows
+    for (final row in rows) {
+      if (row.every(selectedNumbers.contains)) return true;
+    }
+
+    // check columns
+    for (int i = 0; i < rows[0].length; i++) {
+      if (rows.map((e) => e[i]).every(selectedNumbers.contains)) return true;
+    }
+
+    return false;
+  }
 }
 
 class BingoInput {

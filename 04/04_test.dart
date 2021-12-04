@@ -55,4 +55,52 @@ main() {
       expect(input.boards.last.rows, lastBoardRows);
     });
   });
+
+  group(BingoBoard, () {
+    late BingoBoard board;
+
+    setUp(() {
+      board = BingoBoard(rows: [
+        [14, 21, 17, 24, 4],
+        [10, 16, 15, 9, 19],
+        [18, 8, 23, 26, 20],
+        [22, 11, 13, 6, 5],
+        [2, 0, 12, 3, 7],
+      ]);
+    });
+
+    test('is not winner if no row or column of selected values exists', () {
+      board.select(16);
+      expect(board.isWinner, false);
+
+      board.select(14);
+      expect(board.isWinner, false);
+
+      board.select(7);
+      expect(board.isWinner, false);
+
+      board.select(100001);
+      expect(board.isWinner, false);
+    });
+
+    test('is winner if column of selected values exists', () {
+      // Second column is selected
+      board.select(21);
+      board.select(16);
+      board.select(8);
+      board.select(11);
+      board.select(0);
+      expect(board.isWinner, true);
+    });
+
+    test('is winner if row of selected values exists', () {
+      // Third row is selected
+      board.select(18);
+      board.select(8);
+      board.select(23);
+      board.select(26);
+      board.select(20);
+      expect(board.isWinner, true);
+    });
+  });
 }
