@@ -55,6 +55,10 @@ main() {
         final lastLine = [2, 2, 2, 1, 1, 1, 0, 0, 0, 0];
         expect(map.heatmap.last, lastLine);
       });
+
+      test('overlapCount', () {
+        expect(map.overlapCount, 5);
+      });
     });
   });
 }

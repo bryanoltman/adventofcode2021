@@ -104,6 +104,13 @@ class VentMap {
 
     return heatmap;
   }
+
+  int get overlapCount {
+    return heatmap
+        .expand((element) => element)
+        .where((element) => element > 1)
+        .length;
+  }
 }
 
 main() {
