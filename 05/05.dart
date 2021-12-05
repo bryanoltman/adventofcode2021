@@ -48,18 +48,12 @@ class VentInput {
   }
 
   static VentInput fromFileLines(List<String> fileLines) {
-    final lines = fileLines
-        .map((line) {
-          final parts = line.split('->');
-          final start = Coordinate.fromString(parts[0]);
-          final end = Coordinate.fromString(parts[1]);
-          return Line(start, end);
-        })
-        .where((element) =>
-            // Only consider horizontal or verical lines
-            element.startCoordinate.x == element.endCoordinate.x ||
-            element.startCoordinate.y == element.endCoordinate.y)
-        .toList();
+    final lines = fileLines.map((line) {
+      final parts = line.split('->');
+      final start = Coordinate.fromString(parts[0]);
+      final end = Coordinate.fromString(parts[1]);
+      return Line(start, end);
+    }).toList();
     return VentInput(lines);
   }
 }
@@ -85,21 +79,26 @@ class VentMap {
         List.generate(maxYCoord + 1, (_) => List.filled(maxXCoord + 1, 0));
 
     for (final line in input.lines) {
-      if (line.isHorizontal) {
-        final startCoordinate =
-            min(line.startCoordinate.x, line.endCoordinate.x);
-        final endCoordinate = max(line.startCoordinate.x, line.endCoordinate.x);
-        for (var i = startCoordinate; i <= endCoordinate; i++) {
-          heatmap[line.startCoordinate.y][i]++;
+      var x = line.startCoordinate.x;
+      var y = line.startCoordinate.y;
+      for (var i = 0;
+          !(x == line.endCoordinate.x && y == line.endCoordinate.y);
+          i++) {
+        heatmap[y][x]++;
+        if (line.startCoordinate.x > line.endCoordinate.x) {
+          x--;
+        } else if (line.startCoordinate.x < line.endCoordinate.x) {
+          x++;
         }
-      } else if (line.isVertical) {
-        final startCoordinate =
-            min(line.startCoordinate.y, line.endCoordinate.y);
-        final endCoordinate = max(line.startCoordinate.y, line.endCoordinate.y);
-        for (var i = startCoordinate; i <= endCoordinate; i++) {
-          heatmap[i][line.startCoordinate.x]++;
+
+        if (line.startCoordinate.y > line.endCoordinate.y) {
+          y--;
+        } else if (line.startCoordinate.y < line.endCoordinate.y) {
+          y++;
         }
       }
+
+      heatmap[line.endCoordinate.y][line.endCoordinate.x]++;
     }
 
     return heatmap;
@@ -115,5 +114,6 @@ class VentMap {
 
 main() {
   final input = VentInput.fromFile('input.txt');
-  print(input);
+  final map = VentMap(input);
+  print('overlap count of map is ${map.overlapCount}');
 }

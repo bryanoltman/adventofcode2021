@@ -17,12 +17,12 @@ main() {
     test('deserializes from string', () {
       final input = VentInput.fromFileLines(inputString.split('\n'));
       expect(input.lines.first, Line(Coordinate(0, 9), Coordinate(5, 9)));
-      expect(input.lines.last, Line(Coordinate(3, 4), Coordinate(1, 4)));
+      expect(input.lines.last, Line(Coordinate(5, 5), Coordinate(8, 2)));
     });
   });
 
   group(VentMap, () {
-    // Expected:
+    // Expected (with only horizontal and verical lines):
     // .......1..
     // ..1....1..
     // ..1....1..
@@ -33,6 +33,20 @@ main() {
     // ..........
     // ..........
     // 222111....
+    // overlapCount: 5
+
+    // Expected (with diagonal lines included):
+    // 1.1....11.
+    // .111...2..
+    // ..2.1.111.
+    // ...1.2.2..
+    // .112313211
+    // ...1.2....
+    // ..1...1...
+    // .1.....1..
+    // 1.......1.
+    // 222111....
+    // overlapCount:
 
     late VentInput input;
     late VentMap map;
@@ -49,7 +63,7 @@ main() {
           expect(line, hasLength(10));
         }
 
-        final fifthLine = [0, 1, 1, 2, 1, 1, 1, 2, 1, 1];
+        final fifthLine = [0, 1, 1, 2, 3, 1, 3, 2, 1, 1];
         expect(map.heatmap[4], fifthLine);
 
         final lastLine = [2, 2, 2, 1, 1, 1, 0, 0, 0, 0];
@@ -57,7 +71,7 @@ main() {
       });
 
       test('overlapCount', () {
-        expect(map.overlapCount, 5);
+        expect(map.overlapCount, 12);
       });
     });
   });
