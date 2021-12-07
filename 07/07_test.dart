@@ -14,4 +14,13 @@ main() {
     expect(distanceSumForPoint(input, 3), 39);
     expect(distanceSumForPoint(input, 10), 71);
   });
+
+  test('finds best point squared', () {
+    expect(findBestPointPart2(input), 5);
+  });
+
+  test('finds squared distance', () {
+    expect(distanceSumForPointPart2(input, 2), 206);
+    expect(distanceSumForPointPart2(input, 5), 168);
+  });
 }
