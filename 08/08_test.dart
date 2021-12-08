@@ -32,18 +32,6 @@ main() {
       );
     });
 
-    test('displaySegmentMapping', () {
-      final inputLine = InputLine(input);
-      final mapping = inputLine.displaySegmentMapping;
-      expect(mapping[DisplaySegment.top], 'd');
-      expect(mapping[DisplaySegment.upperLeft], 'e');
-      expect(mapping[DisplaySegment.upperRight], 'a');
-      expect(mapping[DisplaySegment.center], 'f');
-      expect(mapping[DisplaySegment.lowerRight], 'b');
-      expect(mapping[DisplaySegment.lowerLeft], 'g');
-      expect(mapping[DisplaySegment.bottom], 'c');
-    });
-
     test('maps codes to ints', () {
       final inputLine = InputLine(input);
       // final expectedMapping = {
