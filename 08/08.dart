@@ -46,20 +46,14 @@ class InputLine {
         sixSegmentDigits.firstWhere((e) => !e.containsAll(rightDigits));
     mapping[sixDigits] = 6;
 
-    final upperRightCharacter = rightDigits.firstWhere((e) {
-      return !sixDigits.join().contains(e);
-    });
-
-    // The bottom left digit is the only one not shared between 4 and 0,6,9
     final nineAndZeroDigits =
-        sixSegmentDigits.where((e) => e.contains(upperRightCharacter)).toList();
+        sixSegmentDigits.where((e) => e != sixDigits).toList();
 
     // 9 has all missing a digit that is present in 4
     final nineDigits = nineAndZeroDigits.firstWhere((digits) {
       return digits.containsAll(fourDigits);
     });
     mapping[nineDigits] = 9;
-    final lowerLeftDigit = allDigits.firstWhere((e) => !nineDigits.contains(e));
 
     // Now we can identify which is 0
     final zeroDigits = nineAndZeroDigits.firstWhere((e) => e != nineDigits);
@@ -74,7 +68,9 @@ class InputLine {
     mapping[fiveDigits] = 5;
 
     final twoAndThreeDigits = fiveDigitSegments.where((e) => e != fiveDigits);
+
     // 3 is missing a lower left segment
+    final lowerLeftDigit = allDigits.firstWhere((e) => !nineDigits.contains(e));
     final threeDigits =
         twoAndThreeDigits.firstWhere((e) => !e.contains(lowerLeftDigit));
     mapping[threeDigits] = 3;
