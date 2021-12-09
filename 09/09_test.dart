@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import '09.dart';
@@ -40,7 +41,7 @@ main() {
     expect(lowPoints, contains(5));
     expect(lowPoints, contains(0));
 
-    expect(lowPoints.map((e) => e + 1).reduce((v, e) => v + e), 15);
+    expect(lowPoints.map((e) => e + 1).sum, 15);
   });
 
   test('finds basins', () {

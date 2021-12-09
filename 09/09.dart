@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
+
 List<List<int>> parseHeightMap(List<String> lines) => lines
     .where((line) => !line.isEmpty)
     .map((line) => line.split('').map(int.parse).toList())
@@ -87,7 +89,7 @@ main() {
   final map = parseHeightMap(lines);
   final lowPoints = findLowPoints(map);
   final riskLevels = lowPoints.map((e) => e + 1);
-  final riskLevelsSum = riskLevels.reduce((value, element) => value + element);
+  final riskLevelsSum = riskLevels.sum;
   print(riskLevelsSum);
 
   final basins = findBasins(map);
