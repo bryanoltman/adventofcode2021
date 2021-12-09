@@ -1,21 +1,5 @@
 import 'dart:io';
-
-class Coordinate {
-  final int x;
-  final int y;
-
-  Coordinate(this.x, this.y);
-
-  @override
-  operator ==(Object other) {
-    return other is Coordinate && other.x == x && other.y == y;
-  }
-
-  @override
-  int get hashCode {
-    return x.hashCode ^ y.hashCode;
-  }
-}
+import 'dart:math';
 
 List<List<int>> parseHeightMap(List<String> lines) => lines
     .where((line) => !line.isEmpty)
@@ -54,11 +38,11 @@ List<int> findLowPoints(List<List<int>> heightMap) {
   return lowPoints;
 }
 
-var seenCoordinates = <Coordinate>{};
+var seenCoordinates = <Point>{};
 
-List<Coordinate> findAdjacentBasinCoords(
+List<Point<int>> findAdjacentBasinCoords(
   List<List<int>> heightMap,
-  Coordinate coordinate,
+  Point<int> coordinate,
 ) {
   if (seenCoordinates.contains(coordinate)) return [];
   seenCoordinates.add(coordinate);
@@ -68,30 +52,30 @@ List<Coordinate> findAdjacentBasinCoords(
 
   var coords = [coordinate];
   if (coordinate.x > 0) {
-    final nextCoord = Coordinate(coordinate.x - 1, coordinate.y);
+    final nextCoord = Point(coordinate.x - 1, coordinate.y);
     coords.addAll(findAdjacentBasinCoords(heightMap, nextCoord));
   }
   if (coordinate.x < heightMap[coordinate.y].length - 1) {
-    final nextCoord = Coordinate(coordinate.x + 1, coordinate.y);
+    final nextCoord = Point(coordinate.x + 1, coordinate.y);
     coords.addAll(findAdjacentBasinCoords(heightMap, nextCoord));
   }
   if (coordinate.y > 0) {
-    final nextCoord = Coordinate(coordinate.x, coordinate.y - 1);
+    final nextCoord = Point(coordinate.x, coordinate.y - 1);
     coords.addAll(findAdjacentBasinCoords(heightMap, nextCoord));
   }
   if (coordinate.y < heightMap.length - 1) {
-    final nextCoord = Coordinate(coordinate.x, coordinate.y + 1);
+    final nextCoord = Point(coordinate.x, coordinate.y + 1);
     coords.addAll(findAdjacentBasinCoords(heightMap, nextCoord));
   }
 
   return coords;
 }
 
-List<List<Coordinate>> findBasins(List<List<int>> heightMap) {
-  var basins = <List<Coordinate>>[];
+List<List<Point>> findBasins(List<List<int>> heightMap) {
+  var basins = <List<Point>>[];
   for (int y = 0; y < heightMap.length; y++) {
     for (int x = 0; x < heightMap[y].length; x++) {
-      basins.add(findAdjacentBasinCoords(heightMap, Coordinate(x, y)));
+      basins.add(findAdjacentBasinCoords(heightMap, Point(x, y)));
     }
   }
 

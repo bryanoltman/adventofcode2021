@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import '09.dart';
@@ -18,9 +20,9 @@ main() {
   });
 
   test('coordinate equality', () {
-    final coordOne = Coordinate(0, 0);
-    final coordTwo = Coordinate(1, 1);
-    final coordThree = Coordinate(0, 0);
+    final coordOne = Point(0, 0);
+    final coordTwo = Point(1, 1);
+    final coordThree = Point(0, 0);
     expect(coordOne == coordTwo, false);
     expect(coordOne == coordThree, true);
 
