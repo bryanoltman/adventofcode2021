@@ -95,6 +95,7 @@ main() {
   final basins = findBasins(map);
   final basinLengths = basins.map((e) => e.length).toList()
     ..sort((a, b) => b.compareTo(a));
-  final product = basinLengths[0] * basinLengths[1] * basinLengths[2];
+  final product =
+      basinLengths.take(3).reduce((value, element) => value * element);
   print('product is $product');
 }
