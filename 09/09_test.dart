@@ -20,20 +20,6 @@ main() {
     heightMap = parseHeightMap(heightMapString.split('\n'));
   });
 
-  test('coordinate equality', () {
-    final coordOne = Point(0, 0);
-    final coordTwo = Point(1, 1);
-    final coordThree = Point(0, 0);
-    expect(coordOne == coordTwo, false);
-    expect(coordOne == coordThree, true);
-
-    final intSet = {1, 2, 1};
-    expect(intSet, hasLength(2));
-
-    final coordSet = {coordOne, coordTwo, coordThree};
-    expect(coordSet, hasLength(2));
-  });
-
   test('finds low points in map', () {
     final lowPoints = findLowPoints(heightMap);
     expect(lowPoints, hasLength(4));
