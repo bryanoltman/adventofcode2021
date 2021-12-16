@@ -88,15 +88,19 @@ main() {
     expect(scorePath(path, map), 40);
   });
 
+  test('scores best path in map', () {
+    expect(bestPathToEndCost(map), 40);
+  });
+
   test('expands map', () {
     final expanded = expandMap(map);
     final expectedMap = parseInput(expandedInputString);
     expect(expanded, expectedMap);
   });
 
-  test('finds best path in expanded map', () {
+  test('finds score in expanded map', () {
     final expandedMap = parseInput(expandedInputString);
-    final path = findBestPath(expandedMap);
-    expect(scorePath(path, expandedMap), 315);
+    final cost = bestPathToEndCost(expandedMap);
+    expect(cost, 315);
   });
 }
