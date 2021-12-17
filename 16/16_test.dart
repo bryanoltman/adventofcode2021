@@ -69,4 +69,41 @@ main() {
       'VVVTTTILLLLLLLLLLLAAAAAAAAAAABBBBBBBBBBBCCCCCCCCCCC'.length,
     );
   });
+
+  test('evaluates packet', () {
+    var packet = Packet.fromBits(
+      bitsArray: hexStringToBits('C200B40A82').toList(),
+    );
+    expect(packet.evaluate(), 3);
+
+    packet = Packet.fromBits(
+      bitsArray: hexStringToBits('04005AC33890').toList(),
+    );
+    expect(packet.evaluate(), 54);
+
+    packet = Packet.fromBits(
+      bitsArray: hexStringToBits('CE00C43D881120').toList(),
+    );
+    expect(packet.evaluate(), 9);
+
+    packet = Packet.fromBits(
+      bitsArray: hexStringToBits('D8005AC2A8F0').toList(),
+    );
+    expect(packet.evaluate(), 1);
+
+    packet = Packet.fromBits(
+      bitsArray: hexStringToBits('F600BC2D8F').toList(),
+    );
+    expect(packet.evaluate(), 0);
+
+    packet = Packet.fromBits(
+      bitsArray: hexStringToBits('9C005AC2F8F0').toList(),
+    );
+    expect(packet.evaluate(), 0);
+
+    packet = Packet.fromBits(
+      bitsArray: hexStringToBits('9C0141080250320F1802104A08').toList(),
+    );
+    expect(packet.evaluate(), 1);
+  });
 }

@@ -1,8 +1,20 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 
 enum PacketType { literal, operator }
+
+enum OperationType {
+  sum,
+  product,
+  minimum,
+  maximum,
+  value,
+  greaterThan,
+  lessThan,
+  equalTo,
+}
 
 class Packet {
   late int version;
@@ -12,6 +24,8 @@ class Packet {
   late int bitsLength;
 
   PacketType get type => typeId == 4 ? PacketType.literal : PacketType.operator;
+
+  OperationType get operationType => OperationType.values[typeId];
 
   Packet.fromBits({required List<String> bitsArray}) {
     final versionBits = bitsArray.slice(0, 3);
@@ -90,6 +104,31 @@ class Packet {
             .expand((e) => e)
             .toList();
   }
+
+  int evaluate() {
+    switch (operationType) {
+      case OperationType.sum:
+        return subpackets.map((e) => e.evaluate()).sum;
+      case OperationType.product:
+        return subpackets.map((e) => e.evaluate()).reduce((acc, e) => acc * e);
+      case OperationType.minimum:
+        return subpackets
+            .map((e) => e.evaluate())
+            .reduce((acc, e) => min(acc, e));
+      case OperationType.maximum:
+        return subpackets
+            .map((e) => e.evaluate())
+            .reduce((acc, e) => max(acc, e));
+      case OperationType.value:
+        return value;
+      case OperationType.greaterThan:
+        return subpackets[0].evaluate() > subpackets[1].evaluate() ? 1 : 0;
+      case OperationType.lessThan:
+        return subpackets[0].evaluate() < subpackets[1].evaluate() ? 1 : 0;
+      case OperationType.equalTo:
+        return subpackets[0].evaluate() == subpackets[1].evaluate() ? 1 : 0;
+    }
+  }
 }
 
 Iterable<String> hexStringToBits(String string) {
@@ -106,4 +145,6 @@ main() {
   final allPackets = packet.subpacketsRecursive();
   final versionSum = allPackets.map((e) => e.version).sum;
   print('versionSum is $versionSum');
+
+  print('evaluated packet is ${packet.evaluate()}');
 }
