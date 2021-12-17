@@ -25,11 +25,12 @@ input =
 ## Part 1
 
 ```elixir
-sums = input
-|> Enum.zip
-|> Enum.map(& Tuple.to_list/1)
-|> Enum.map(& Enum.reduce(&1, 0, fn acc, i -> acc + i end)
-|> Enum.map(&(&1 > length(input) / 2))
+sums =
+  input
+  |> Enum.zip()
+  |> Enum.map(&Tuple.to_list/1)
+  |> Enum.map(&Enum.reduce(&1, 0, fn acc, i -> acc + i end))
+  |> Enum.map(&(&1 > length(input) / 2))
 ```
 
 ```elixir
