@@ -25,18 +25,18 @@ input =
 ## Part 1
 
 ```elixir
-sums =
+max_chars =
   input
   |> Enum.zip()
   |> Enum.map(&Tuple.to_list/1)
-  |> Enum.map(&Enum.reduce(&1, 0, fn acc, i -> acc + i end))
+  |> Enum.map(&Enum.sum/1)
   |> Enum.map(&(&1 > length(input) / 2))
+  |> Enum.map(&if &1, do: 1, else: 0)
 ```
 
 ```elixir
 gamma =
-  sums
-  |> Enum.map(&if &1, do: 1, else: 0)
+  max_chars
   |> Enum.map(&Integer.to_string/1)
   |> Enum.join()
   |> Integer.parse(2)
@@ -45,8 +45,8 @@ gamma =
 
 ```elixir
 epsilon =
-  sums
-  |> Enum.map(&if &1, do: 0, else: 1)
+  max_chars
+  |> Enum.map(&if &1 == 0, do: 1, else: 0)
   |> Enum.map(&Integer.to_string/1)
   |> Enum.join()
   |> Integer.parse(2)
