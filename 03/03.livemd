@@ -1,0 +1,64 @@
+# Day 3
+
+## Set up
+
+```elixir
+input =
+  """
+  00100
+  11110
+  10110
+  10111
+  10101
+  01111
+  00111
+  11100
+  10000
+  11001
+  00010
+  01010
+  """
+  |> String.split("\n", trim: true)
+  |> Enum.map(fn str -> Enum.map(String.graphemes(str), &String.to_integer/1) end)
+```
+
+## Part 1
+
+```elixir
+sums =
+  input
+  |> Enum.reduce([0, 0, 0, 0, 0], fn [a, b, c, d, e], [acc1, acc2, acc3, acc4, acc5] ->
+    [acc1 + a, acc2 + b, acc3 + c, acc4 + d, acc5 + e]
+  end)
+  |> Enum.map(&(&1 > length(input) / 2))
+```
+
+```elixir
+gamma =
+  sums
+  |> Enum.map(&if &1, do: 1, else: 0)
+  |> Enum.map(&Integer.to_string/1)
+  |> Enum.join()
+  |> Integer.parse(2)
+  |> elem(0)
+```
+
+```elixir
+epsilon =
+  sums
+  |> Enum.map(&if &1, do: 0, else: 1)
+  |> Enum.map(&Integer.to_string/1)
+  |> Enum.join()
+  |> Integer.parse(2)
+  |> elem(0)
+```
+
+```elixir
+part1_solution = gamma * epsilon
+```
+
+## Part 2
+
+```elixir
+
+```
