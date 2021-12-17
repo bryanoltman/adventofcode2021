@@ -1,0 +1,48 @@
+# Day 2
+
+## Setup
+
+```elixir
+commands =
+  """
+  forward 5
+  down 5
+  forward 8
+  up 3
+  down 8
+  forward 2
+  """
+  |> String.split("\n", trim: true)
+  |> Enum.map(&String.split(&1, " "))
+  |> Enum.map(fn [l, r] -> {l, String.to_integer(r)} end)
+```
+
+## Part 1
+
+```elixir
+commands
+|> Enum.map(fn
+  {"forward", x} -> {x, 0}
+  {"up", x} -> {0, -x}
+  {"down", x} -> {0, x}
+end)
+|> Enum.reduce({_depth = 0, _position = 0}, fn {xl, xr}, {depth, position} ->
+  {xl + depth, xr + position}
+end)
+|> then(fn {depth, position} -> depth * position end)
+```
+
+## Part 2
+
+```elixir
+commands
+|> Enum.map(fn
+  {"forward", x} -> {x, 0}
+  {"up", x} -> {0, -x}
+  {"down", x} -> {0, x}
+end)
+|> Enum.reduce({_depth = 0, _position = 0, _aim = 0}, fn {xl, xr}, {depth, position, aim} ->
+  {depth + aim * xl, position + xl, xr + aim}
+end)
+|> then(fn {depth, position, _aim} -> depth * position end)
+```
