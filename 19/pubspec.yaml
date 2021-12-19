@@ -1,0 +1,8 @@
+name: day_nineteen
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+
+dependencies:
+  vector_math: ^2.1.1
+  test: ^1.19.5
