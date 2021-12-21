@@ -1,0 +1,8 @@
+name: day_twenty_one
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+
+dependencies:
+  test: ^1.19.5
+  tuple: ^2.0.0
